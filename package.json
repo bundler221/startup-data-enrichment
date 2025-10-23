@@ -10,10 +10,11 @@
     "prisma:generate": "dotenv -e .env.local -- npx prisma generate",
     "prisma:push": "dotenv -e .env.local -- npx prisma db push",
     "prisma:studio": "dotenv -e .env.local -- npx prisma studio",
+    "vercel-build": "prisma generate && prisma db push --skip-generate && next build",
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.18.0",
+    "@prisma/client": "^5.22.0",
     "axios": "^1.12.2",
     "cheerio": "^1.1.2",
     "next": "16.0.0",
@@ -21,7 +22,7 @@
     "openai": "^6.6.0",
     "perplexityai": "^1.0.1",
     "playwright": "^1.56.1",
-    "prisma": "^6.18.0",
+     "prisma": "^5.22.0",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
