@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 export class OpenAIClient {
   private client: OpenAI;
@@ -16,12 +17,12 @@ export class OpenAIClient {
     this.model = model;
   }
   
-  async chat(messages: Array<{ role: string; content: string }>) {
+  async chat(messages: ChatCompletionMessageParam[]) {
     try {
       console.log('💬 Chat Request:', {
         model: this.model,
         messageCount: messages.length,
-        firstMessage: messages[0]?.content?.substring(0, 100)
+        firstMessage: messages[0]?.content?.toString().substring(0, 100)
       });
       
       const response = await this.client.chat.completions.create({
