@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Startup {
+  id                    String   @id @default(cuid())
+  startup_name          String
+  url_slug              String   @unique
+  short_description     String?  @db.Text
+  full_description      String?  @db.Text
+  startup_logo          String?
+  website               String?
+  headquarters          String?
+  founding_year         Int?
+  sector                String?
+  funding_stage         String?
+  company_status        String?
+  company_size          String?
+  employees             Int?
+  public_status         String?
+  total_funding_amount  Float?
+  revenue               String?
+  valuation             String?
+  cin                   String?  @unique
+  
+  // Social Media
+  linkedin              String?
+  twitter               String?
+  facebook              String?
+  instagram             String?
+  youtube               String?
+  github                String?
+  
+  // Relations
+  funding_stages        FundingRound[]
+  founders              Founder[]
+  
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+  
+  @@index([startup_name])
+  @@index([url_slug])
+  @@index([sector])
+}
+
+model Founder {
+  id           String   @id @default(cuid())
+  name         String
+  role         String?
+  linkedin_url String?
+  startup_id   String
+  startup      Startup  @relation(fields: [startup_id], references: [id], onDelete: Cascade)
+  
+  @@index([startup_id])
+}
+
+model FundingRound {
+  id             String   @id @default(cuid())
+  round_name     String
+  amount         Float?
+  date           DateTime?
+  investors      String[]
+  startup_id     String
+  startup        Startup  @relation(fields: [startup_id], references: [id], onDelete: Cascade)
+  
+  @@index([startup_id])
+}
